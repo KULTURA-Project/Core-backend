@@ -4,7 +4,7 @@ from inventory.models import ProductInventory
 from media.models import Media
 from promotions.models import Promotion, ProductPromo
 from .serializers import (ProductSerializer, CategorySerializer, ProductTypeSerializer,
-                          ProductAttributeSerializer, ProductAttributeValueSerializer,
+                          ProductTypeAttributeSerializer, ProductAttributeValueSerializer,
                           ProductInventorySerializer, MediaSerializer, PromotionSerializer,
                           ProductPromoSerializer)
 
@@ -18,7 +18,7 @@ class ProductTypeViewSet(viewsets.ModelViewSet):
 
 class ProductAttributeViewSet(viewsets.ModelViewSet):
     queryset = ProductAttribute.objects.all()
-    serializer_class = ProductAttributeSerializer
+    serializer_class = ProductTypeAttributeSerializer
 
 class ProductAttributeValueViewSet(viewsets.ModelViewSet):
     queryset = ProductAttributeValue.objects.all()

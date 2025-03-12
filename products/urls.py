@@ -13,6 +13,9 @@ router.register(r'media', views.MediaViewSet)
 router.register(r'promotions', views.PromotionViewSet)
 router.register(r'productpromos', views.ProductPromoViewSet)
 
+
+
+urlpatterns = router.urls
 urlpatterns = [
     path('', include(router.urls)),
 ]
