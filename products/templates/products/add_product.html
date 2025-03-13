@@ -1,19 +1,85 @@
-<!-- products/templates/products/add_product.html -->
 {% extends 'layout.html' %}
 
-{% block title %}Add Product{% endblock %}
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+</head>
+
+{% load static %}
 
 {% block content %}
+    <div class="container">
+        <h1>Add Product</h1>
 
-    <h1>Add Product</h1>
-    <form method="post" enctype="multipart/form-data" class="row g-3">
-        {% csrf_token %}
-        {{ product_form.as_p }}
-        {{ promotion_form.as_p }}
-        {{ product_promo_form.as_p }}
-        {{ media_form.as_p }}
-        <div class="col-12">
-            <button type="submit" class="btn btn-primary">Add Product</button>
-        </div>
-    </form>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <!-- Product Form Fields -->
+            <div class="form-group">
+                <label for="id_name">Product Name</label>
+                {{ form.name }}
+            </div>
+
+            <div class="form-group">
+                <label for="id_description">Description</label>
+                {{ form.description }}
+            </div>
+
+            <div class="form-group">
+                <label for="id_category">Category</label>
+                {{ form.category }}
+            </div>
+
+            <div class="form-group">
+                <label for="id_product_type">Product Type</label>
+                {{ form.product_type }}
+            </div>
+
+            <div class="form-group">
+                <label for="id_is_active">Is Active</label>
+                {{ form.is_active }}
+            </div>
+
+            <!-- Product Attribute Dynamic Fields -->
+            <h3>Product Attributes</h3>
+            <div id="attributes-section">
+                {% for attribute in product_attributes %}
+                    <div class="form-group">
+                        <label for="id_attribute_{{ attribute.id }}">{{ attribute.name }}</label>
+                        <input type="text" name="attribute_{{ attribute.id }}" id="id_attribute_{{ attribute.id }}" class="form-control" placeholder="{{ attribute.name }}">
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Media Upload Section -->
+            <h3>Media</h3>
+            <div id="media-section">
+                {% for media_form in media_forms %}
+                    <div class="form-group">
+                        <label for="id_image_{{ media_form.instance.id }}">Image</label>
+                        {{ media_form.image }}
+                        <label for="id_alt_text_{{ media_form.instance.id }}">Alt Text</label>
+                        {{ media_form.alt_text }}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Attributes and Values Section (Dynamic) -->
+            <h3>Attributes & Values</h3>
+            <div id="attribute-values-section">
+                {% for attribute in product_attributes %}
+                    <div class="form-group">
+                        <label for="id_value_{{ attribute.id }}">{{ attribute.name }} Value</label>
+                        <select name="value_{{ attribute.id }}" id="id_value_{{ attribute.id }}" class="form-control">
+                            {% for value in attribute.values.all %}
+                                <option value="{{ value.id }}">{{ value.attribute_value }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary">Save Product</button>
+        </form>
+    </div>
 {% endblock %}

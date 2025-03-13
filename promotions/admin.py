@@ -1,34 +1,37 @@
 from django.contrib import admin
 from .models import PromoType, Coupon, Promotion, ProductPromo
+from unfold.admin import ModelAdmin
 
 # Inline for managing ProductPromos within Promotion admin
-class ProductPromoInline(admin.TabularInline):
+class ProductPromotionInline(admin.TabularInline):
     model = ProductPromo
-    extra = 1  # Number of empty forms to display by default
-    raw_id_fields = ('product_inventory',)  # Use raw ID fields for ForeignKeys
-
-
+    extra = 1
+    autocomplete_fields = ['product_inventory']  # Corrected field
+    fields = ('product_inventory', 'promotion', 'price_override', 'promo_price')
+class PromotionInline(admin.TabularInline):
+    model = ProductPromo
+    extra = 1
+    autocomplete_fields = ['promotion']
+    fields = ('promotion', 'price_override', 'promo_price', 'active_dates')
+# Admin registrations
 @admin.register(PromoType)
-class PromoTypeAdmin(admin.ModelAdmin):
+class PromoTypeAdmin(ModelAdmin):
     list_display = ('name',)
     search_fields = ('name',)
 
-
 @admin.register(Coupon)
-class CouponAdmin(admin.ModelAdmin):
+class CouponAdmin(ModelAdmin):
     list_display = ('name', 'coupon_code')
     search_fields = ('name', 'coupon_code')
 
-
 @admin.register(Promotion)
-class PromotionAdmin(admin.ModelAdmin):
+class PromotionAdmin(ModelAdmin):
     list_display = ('name', 'promo_reduction', 'promo_start', 'time_end', 'is_active', 'promo_type')
     search_fields = ('name', 'description')
     list_filter = ('is_active', 'promo_type')  # Add filters for active status and type
-    inlines = [ProductPromoInline]  # Inline editing for related ProductPromos
+    inlines = []  # Inline editing for related ProductPromos
 
-
-@admin.register(ProductPromo)
-class ProductPromoAdmin(admin.ModelAdmin):
-    list_display = ('product_inventory', 'promotion', 'price_override', 'promo_price')
-    raw_id_fields = ('product_inventory', 'promotion')  # Use raw ID fields for ForeignKeys
+class ProductPromoInline(admin.TabularInline):
+    model = ProductPromo
+    extra = 1
+    autocomplete_fields = ['product_inventory']  # This should be removed since it's the parent model

@@ -1,7 +1,10 @@
 from django.db import models
 from django.utils.text import slugify
 import uuid
+from django.utils.functional import cached_property
 from datetime import datetime
+from inventory.models import ProductInventory
+from mptt.models import MPTTModel, TreeForeignKey
 class Category(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
@@ -20,19 +23,22 @@ class ProductType(models.Model):
     def __str__(self):
         return self.name
 
-class ProductAttribute(models.Model):
-    name = models.CharField(max_length=255)
-    description = models.TextField()
 
+class ProductAttribute(models.Model):
+    product_type = models.ForeignKey(ProductType, related_name="attributes", on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    
     def __str__(self):
         return self.name
 
+
 class ProductAttributeValue(models.Model):
-    product_attribute = models.ForeignKey(ProductAttribute, on_delete=models.CASCADE)
-    attribute_value = models.TextField()
+    product_attribute = models.ForeignKey(ProductAttribute, related_name="values", on_delete=models.CASCADE)
+    value = models.CharField(max_length=255)
 
     def __str__(self):
-        return f"{self.product_attribute.name}: {self.attribute_value}"
+        return self.value
+
 
 class ProductTypeAttribute(models.Model):
     product_attribute = models.ForeignKey(ProductAttribute, on_delete=models.CASCADE)
@@ -51,6 +57,10 @@ class Product(models.Model):
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
+    @cached_property
+    def product_inventory(self):
+        return ProductInventory.objects.filter(product=self)
 
     def save(self, *args, **kwargs):
         # Auto-generate slug if not provided
@@ -95,6 +105,12 @@ class Product(models.Model):
             web_id = f"{category_prefix}-{today}-{unique_id}"
         
         return web_id
+    
+    def get_first_media_image(self):
+        if self.media_set.first():
+            return self.media_set.first().image.url
+        else:
+            return '/static/products/images/placeholder.jpg'
 
     def __str__(self):
         return self.name

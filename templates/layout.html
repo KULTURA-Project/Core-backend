@@ -1,76 +1,128 @@
 <!-- templates/layout.html -->
 <!DOCTYPE html>
+
+
 <html>
-<!-- templates/layout.html -->
-<!-- templates/layout.html -->
 <head>
     <title>{% block title %}Kultura Backend{% endblock %}</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://bootswatch.com/5/lux/bootstrap.min.css">
-   
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+\
 </head>
-
-
-<!-- templates/layout.html -->
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-    }
+    /* core/static/css/style.css */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
 
-    .wrapper {
-        display: flex;
-        height: 100vh;
-    }
+.wrapper {
+    display: flex;
+    height: 100vh;
+}
 
-    #sidebar {
-        width: 200px;
-        background-color: #333;
-        color: white;
-        padding: 20px;
-        text-align: center;
-    }
+#sidebar {
+    width: 200px;
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+}
 
-    #sidebar ul {
-        list-style: none;
-        padding: 0;
-    }
+#sidebar ul {
+    list-style: none;
+    padding: 0;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
 
-    #sidebar li {
-        margin-bottom: 10px;
-    }
+#sidebar li {
+    margin-bottom: 10px;
+}
 
-    #sidebar a {
-        color: white;
-        text-decoration: none;
-    }
+#sidebar a {
+    color: white;
+    text-decoration: none;
+}
 
-    #sidebar a:hover {
-        color: lightblue;
-    }
+#sidebar a:hover {
+    color: lightblue;
+}
 
-    #content {
-        flex-grow: 1;
-        padding: 20px;
-        overflow-y: auto;
-    }
+#content {
+    flex-grow: 1;
+    padding: 20px;
+    margin-left: 200px;
+    overflow-y: auto;
+}
+
+#content h1 {
+    margin-top: 0;
+}
+
+.product-card {
+    margin-bottom: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.product-card h2 {
+    margin-top: 0;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-control {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #333;
+    color: white;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #444;
+}
+
 </style>
-
-<!-- templates/layout.html -->
 <body>
     <div class="wrapper d-flex">
         <!-- Sidebar -->
         <nav id="sidebar" class="bg-dark text-white">
             <ul class="list-unstyled">
-                <li class="mb-2"><a href="{% url 'products:product_list' %}" class="text-decoration-none text-white"><i class="bi bi-list"></i> Product List</a></li>
-                <li class="mb-2"><a href="" class="text-decoration-none text-white"><i class="bi bi-box"></i> Inventory List</a></li>
-                <!-- Add more links as needed -->
-                <li><a href="{% url 'promotions:promotion_list' %}">Promotion Management</a></li>
-                <li><a href="{% url 'promotions:coupon_list' %}">coupon</a></li>
+                <li class="mb-2"><a href="{% url 'products:product_list' %}" class="text-decoration-none text-white"><i class="fas fa-list"></i> Product List</a></li>
+                <li class="mb-2"><a href="#" class="text-decoration-none text-white"><i class="fas fa-box"></i> Inventory List</a></li>
+                <li><a href="{% url 'promotions:promotion_list' %}" class="text-decoration-none text-white"><i class="fas fa-tags"></i> Promotion Management</a></li>
+                <li><a href="{% url 'promotions:coupon_list' %}" class="text-decoration-none text-white"><i class="fas fa-ticket-alt"></i> Coupons</a></li>
             </ul>
+            <div class="mt-auto">
+                <hr class="border-white">
+                <li><a href="{% url 'settings' %}" class="text-decoration-none text-white"><i class="fas fa-cog"></i> Settings</a></li>
+                <li><a href="{% url 'logout' %}" class="text-decoration-none text-white"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </div>
         </nav>
-        
+
         <!-- Page Content -->
         <div id="content" class="flex-grow-1">
             {% block content %}{% endblock %}
@@ -78,7 +130,4 @@
     </div>
 
 </body>
-<!-- templates/layout.html -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css"></script>
-
 </html>

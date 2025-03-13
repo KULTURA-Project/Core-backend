@@ -1,5 +1,6 @@
 <!-- products/templates/products/product_list.html -->
 {% extends 'layout.html' %}
+{% load static %}
 
 {% block title %}Product List{% endblock %}
 
@@ -13,10 +14,13 @@
         {% for product in products %}
             <div class="col-md-4 mb-3">
                 <div class="card">
+                    <img src="{% if product.media_set.first %}{{ product.media_set.first.image.url }}{% else %}{% static 'products/images/placeholder.jpg' %}{% endif %}" class="card-img-top" alt="Product Image">
                     <div class="card-body">
                         <h5 class="card-title">{{ product.name }}</h5>
                         <p class="card-text">Category: {{ product.category.name }}</p>
                         <p class="card-text">Price: {{ product.price }}</p>
+                        <p class="card-text">Description: {{ product.description|truncatewords:20 }}</p>
+                        <p class="card-text">Created At: {{ product.created_at }}</p>
                         <div class="d-flex justify-content-between">
                             <a href="{% url 'products:edit_product' product.pk %}" class="btn btn-sm btn-secondary">Edit</a>
                             <a href="{% url 'products:delete_product' product.pk %}" class="btn btn-sm btn-danger">Delete</a>
