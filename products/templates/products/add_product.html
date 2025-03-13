@@ -1,0 +1,19 @@
+<!-- products/templates/products/add_product.html -->
+{% extends 'layout.html' %}
+
+{% block title %}Add Product{% endblock %}
+
+{% block content %}
+
+    <h1>Add Product</h1>
+    <form method="post" enctype="multipart/form-data" class="row g-3">
+        {% csrf_token %}
+        {{ product_form.as_p }}
+        {{ promotion_form.as_p }}
+        {{ product_promo_form.as_p }}
+        {{ media_form.as_p }}
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Add Product</button>
+        </div>
+    </form>
+{% endblock %}

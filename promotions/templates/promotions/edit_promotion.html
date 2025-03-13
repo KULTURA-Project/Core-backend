@@ -1,0 +1,13 @@
+<!-- promotions/templates/promotions/edit_promotion.html -->
+{% extends 'layout.html' %}
+
+{% block title %}Edit Promotion{% endblock %}
+
+{% block content %}
+    <h1>Edit Promotion</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+{% endblock %}

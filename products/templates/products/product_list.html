@@ -1,0 +1,29 @@
+<!-- products/templates/products/product_list.html -->
+{% extends 'layout.html' %}
+
+{% block title %}Product List{% endblock %}
+
+{% block content %}
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>Product List</h1>
+        <a href="{% url 'products:add_product' %}" class="btn btn-primary">Add New Product</a>
+    </div>
+    
+    <div class="row">
+        {% for product in products %}
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text">Category: {{ product.category.name }}</p>
+                        <p class="card-text">Price: {{ product.price }}</p>
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'products:edit_product' product.pk %}" class="btn btn-sm btn-secondary">Edit</a>
+                            <a href="{% url 'products:delete_product' product.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

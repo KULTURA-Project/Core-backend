@@ -68,7 +68,7 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+ 'DIRS': [BASE_DIR / 'templates'],  # Include project-level 
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -80,6 +80,10 @@ TEMPLATES = [
         },
     },
 ]
+# core/settings.py
+# core/settings.py
+
+
 
 WSGI_APPLICATION = 'core.wsgi.application'
 

@@ -1,0 +1,13 @@
+<!-- promotions/templates/promotions/add_promotion.html -->
+{% extends 'layout.html' %}
+
+{% block title %}Add Promotion{% endblock %}
+
+{% block content %}
+    <h1>Add Promotion</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Add Promotion</button>
+    </form>
+{% endblock %}

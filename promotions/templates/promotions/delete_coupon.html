@@ -1,0 +1,14 @@
+<!-- promotions/templates/promotions/delete_coupon.html -->
+{% extends 'layout.html' %}
+
+{% block title %}Delete Coupon{% endblock %}
+
+{% block content %}
+    <h1>Delete Coupon</h1>
+    <p>Are you sure you want to delete {{ coupon.name }}?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a href="{% url 'promotions:coupon_list' %}">Cancel</a>
+    </form>
+{% endblock %}

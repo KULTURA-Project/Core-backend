@@ -1,0 +1,36 @@
+<!-- promotions/templates/promotions/promotion_list.html -->
+{% extends 'layout.html' %}
+
+{% block title %}Promotion List{% endblock %}
+
+{% block content %}
+    <h1>Promotion List</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Promo Reduction</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for promotion in promotions %}
+                <tr>
+                    <td>{{ promotion.name }}</td>
+                    <td>{{ promotion.description }}</td>
+                    <td>{{ promotion.promo_reduction }}</td>
+                    <td>
+                  
+                        <a href="{% url 'promotions:edit_promotion' promotion.pk %}">Edit</a>
+                        <a href="{% url 'promotions:delete_promotion' promotion.pk %}">Delete</a>
+                
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+     <a href="{% url 'promotions:add_promotion' %}">Add New Promotion</a>
+ 
+{% endblock %}

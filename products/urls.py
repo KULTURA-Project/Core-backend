@@ -1,21 +1,15 @@
-from django.urls import path, include
-from rest_framework import routers
+# products/urls.py
+from django.urls import path
 from . import views
 
-router = routers.DefaultRouter()
-router.register(r'categories', views.CategoryViewSet)
-router.register(r'producttypes', views.ProductTypeViewSet)
-router.register(r'productattributes', views.ProductAttributeViewSet)
-router.register(r'productattributevalues', views.ProductAttributeValueViewSet)
-router.register(r'products', views.ProductViewSet)
-router.register(r'productinventories', views.ProductInventoryViewSet)
-router.register(r'media', views.MediaViewSet)
-router.register(r'promotions', views.PromotionViewSet)
-router.register(r'productpromos', views.ProductPromoViewSet)
+app_name = 'products'
 
-
-
-urlpatterns = router.urls
 urlpatterns = [
-    path('', include(router.urls)),
+
+    path('products/', views.product_list, name='product_list'),
+    path('add/', views.add_product, name='add_product'),
+  # products/urls.py
+path('edit/<pk>/', views.edit_product, name='edit_product'),
+
+  path('delete/<pk>/', views.delete_product, name='delete_product'),
 ]

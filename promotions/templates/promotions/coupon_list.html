@@ -1,0 +1,30 @@
+<!-- promotions/templates/promotions/coupon_list.html -->
+{% extends 'layout.html' %}
+
+{% block title %}Coupon List{% endblock %}
+
+{% block content %}
+    <h1>Coupon List</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Coupon Code</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for coupon in coupons %}
+                <tr>
+                    <td>{{ coupon.name }}</td>
+                    <td>{{ coupon.coupon_code }}</td>
+                    <td>
+                        <a href="{% url 'promotions:edit_coupon' coupon.pk %}">Edit</a>
+                        <a href="{% url 'promotions:delete_coupon' coupon.pk %}">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'promotions:add_coupon' %}">Add New Coupon</a>
+{% endblock %}
